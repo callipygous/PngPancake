@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_pngpancake" default="compile.module.pngpancake">
+  <dirname property="module.pngpancake.basedir" file="${ant.file.module_pngpancake}"/>
+  
+  <property name="module.jdk.home.pngpancake" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.pngpancake" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.pngpancake" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.pngpancake" value="${compiler.args}"/>
+  
+  <property name="pngpancake.output.dir" value="${module.pngpancake.basedir}/out/production/PngPancake"/>
+  <property name="pngpancake.testoutput.dir" value="${module.pngpancake.basedir}/out/test/PngPancake"/>
+  
+  <path id="pngpancake.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="pngpancake.module.production.classpath">
+    <path refid="${module.jdk.classpath.pngpancake}"/>
+  </path>
+  
+  <path id="pngpancake.runtime.production.module.classpath">
+    <pathelement location="${pngpancake.output.dir}"/>
+  </path>
+  
+  <path id="pngpancake.module.classpath">
+    <path refid="${module.jdk.classpath.pngpancake}"/>
+    <pathelement location="${pngpancake.output.dir}"/>
+  </path>
+  
+  <path id="pngpancake.runtime.module.classpath">
+    <pathelement location="${pngpancake.testoutput.dir}"/>
+    <pathelement location="${pngpancake.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.pngpancake">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.pngpancake">
+    <patternset refid="excluded.from.module.pngpancake"/>
+  </patternset>
+  
+  <path id="pngpancake.module.sourcepath">
+    <dirset dir="${module.pngpancake.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.pngpancake" depends="compile.module.pngpancake.production,compile.module.pngpancake.tests" description="Compile module PngPancake"/>
+  
+  <target name="compile.module.pngpancake.production" depends="register.custom.compilers" description="Compile module PngPancake; production classes">
+    <mkdir dir="${pngpancake.output.dir}"/>
+    <javac2 destdir="${pngpancake.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.pngpancake}/javac">
+      <compilerarg line="${compiler.args.pngpancake}"/>
+      <bootclasspath refid="pngpancake.module.bootclasspath"/>
+      <classpath refid="pngpancake.module.production.classpath"/>
+      <src refid="pngpancake.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.pngpancake"/>
+    </javac2>
+    
+    <copy todir="${pngpancake.output.dir}">
+      <fileset dir="${module.pngpancake.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.pngpancake.tests" depends="register.custom.compilers,compile.module.pngpancake.production" description="compile module PngPancake; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.pngpancake" description="cleanup module">
+    <delete dir="${pngpancake.output.dir}"/>
+    <delete dir="${pngpancake.testoutput.dir}"/>
+  </target>
+</project>
