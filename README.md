@@ -28,7 +28,7 @@ And landing images were at:
 /path/to/my/bird/landing6.png
 
 Than the command would lay these images out in a 4x4 grid in png with flying images 1-10 showing up before landing images 1-6.
-It ALPHABETIZES by file path before laying it out so if you do something silly like:
+It does an alphanumeric sort on each image set by file NAME before laying it out so if you do something silly like:
 /path/to/my/bird/flying1.png
 /path/to/my/bird/flying02.png
 
