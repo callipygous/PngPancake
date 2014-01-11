@@ -116,6 +116,8 @@ public class OptionParser {
     private void extractFiles( final String [] filePatterns, final List<String> errors, final List<String> warnings ) {
         patternToFiles = new LinkedHashMap<>();
 
+        final Comparator<File> alphaIntFileComparator = new AlphaIntFileNameComparator();
+
         for(final String filePattern : filePatterns ) {
             //note ; will also stop windows from interpreting the argument as a file and allow you to use *
             if( !filePattern.contains(";") ) {
@@ -139,7 +141,7 @@ public class OptionParser {
                 for(final Path filePath : filePaths ) {
                     files.add( filePath.toFile() );
                 }
-                Collections.sort( files );
+                Collections.sort( files, alphaIntFileComparator );
                 patternToFiles.put( filePattern, files );
             }
         }
